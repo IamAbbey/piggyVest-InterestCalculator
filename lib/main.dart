@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'ui/calculator_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -10,15 +11,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Interest Calculator',
-      home:Scaffold(
-              body: SafeArea(
-                child: Center(
-                  child: Text('Hello World'),
-                ),
-        ),
-      )
-      );
-
+      home: CalculatorScreen(),
+      // home:Scaffold(
+      //         body: SafeArea(
+      //           child: Center(
+      //             child: Text('Hello World'),
+      //           ),
+    );
   }
 }
-
