@@ -1,6 +1,6 @@
 # piggyvestinterestcalculator
 
-An application that enables a calculate interest on their safelock account.
+An application that enables a user calculate interest on their Piggy Vest safelock account.
 
 ## Getting Started
 
