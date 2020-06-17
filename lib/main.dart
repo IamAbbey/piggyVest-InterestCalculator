@@ -10,7 +10,13 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Interest Calculator',
-      home:Text('Hello World')
+      home:Scaffold(
+              body: SafeArea(
+                child: Center(
+                  child: Text('Hello World'),
+                ),
+        ),
+      )
       );
 
   }
