@@ -28,7 +28,7 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
         ),
       ),
       body: Container(
-        height: MediaQuery.of(context).size.height * 0.6,
+        height: MediaQuery.of(context).size.height * 0.7,
         margin: EdgeInsets.fromLTRB(30.0, 40.0, 30.0, 0.0),
         padding: EdgeInsets.symmetric(vertical: 30, horizontal: 20.0),
         decoration: BoxDecoration(
