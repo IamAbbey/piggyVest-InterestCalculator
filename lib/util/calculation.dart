@@ -5,19 +5,25 @@ abstract class ICalculation {
   bool checkAmount(double amount);
   double dayInYear(int day);
   double getRate(int day);
-  double findInterest(double principalAmount, int day);
-  double performCalculation(double principalAmount, int day);
+  double findInterest(double matureValue, double principalAmount);
+  double findMatureValue(double principalAmount, int day);
 }
 
 class Calculation implements ICalculation {
   static const double INTEREST_RATE = 5 / 100;
 
   @override
-  double performCalculation(double amount, int day) {
-    if (checkAmount(amount) && checkDuration(day))
-      return findInterest(amount, day);
+  double findMatureValue(double principalAmount, int day) {
+    if (checkAmount(principalAmount) && checkDuration(day)){
+          double matureValue =
+        principalAmount * math.pow((1 + INTEREST_RATE), dayInYear(day));
+    print('mature value $matureValue');
+    return matureValue;
+  }
     return null;
   }
+
+
 
   @override
   double dayInYear(int day) {
@@ -30,10 +36,7 @@ class Calculation implements ICalculation {
   }
 
   @override
-  double findInterest(double principalAmount, int day) {
-    double matureValue =
-        principalAmount * math.pow((1 + INTEREST_RATE), dayInYear(day));
-    print('mature value $matureValue');
+  double findInterest(double matureValue, double principalAmount) {
     return matureValue - principalAmount;
   }
 
