@@ -13,11 +13,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Interest Calculator',
       home: CalculatorScreen(),
-      // home:Scaffold(
-      //         body: SafeArea(
-      //           child: Center(
-      //             child: Text('Hello World'),
-      //           ),
+      
     );
   }
 }
