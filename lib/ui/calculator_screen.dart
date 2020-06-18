@@ -9,7 +9,8 @@ class CalculatorScreen extends StatefulWidget {
 class _CalculatorScreenState extends State<CalculatorScreen> {
   TextEditingController textEditingController = TextEditingController();
   TextEditingController textEditingController2 = TextEditingController();
-  String value = '';
+  String matureValue = '';
+  String interest = '';
   Calculation calculation = new Calculation();
   GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
   double _amount = 0.0;
@@ -18,6 +19,59 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.all(0.0),
+          children: <Widget>[
+            DrawerHeader(
+              padding: EdgeInsets.only(left: 10),
+              margin: EdgeInsets.zero,
+              decoration: BoxDecoration(
+                color: Colors.blue[900],
+              ),
+              child: Stack(
+                children: [
+                  Positioned(
+                    left: 6.0,
+                    bottom: 20.0,
+                    child: Text(
+                      'SAFELOCK FAQ',
+                      style: TextStyle(color: Colors.white, fontSize: 24.0),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            ExpansionTile(
+              title: Text('What is SafeLock'),
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Text("SafeLock is a fixed savings option that allows you to earn up to 15.5% per annum, usually paid up front. \n\n" +
+                      "Your Safelock acts as your sub-account so that you can transfer and lock funds from your Piggybank wallet or your debit card for at least 10 days, without access to these funds until maturity. \n\n" +
+                      "The SafeLock feature is one step further towards curbing the temptation to touch money that you have put aside as your savings."),
+                )
+              ],
+            ),
+            ExpansionTile(
+              title: Text('What is SafeLock'),
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Text("SafeLock interests are prorated and paid for the duration you set. \n\n" +
+                      "On funds locked for: \n\n" +
+                      "10-30 days, the interest is calculated at 6% per annum and prorated for the duration you set. \n\n" +
+                      "31-60 days, the interest is calculated at 8% per annum and prorated accordingly \n\n" +
+                      "61-90 days, the interest is calculated at 10% per annum and prorated accordingly \n\n" +
+                      "91 days- 2 years, the interest is calculated at 13% per annum and prorated accordingly.\n\n" +
+                      "2 years and above, the interest is calculated at 15.5% per annum and prorated accordingly. \n\n" +
+                      "The minimum amount that may be kept in SafeLock is N1000."),
+                )
+              ],
+            ),
+          ],
+        ),
+      ),
       resizeToAvoidBottomPadding: false,
       backgroundColor: Colors.blue[900],
       appBar: AppBar(
@@ -64,7 +118,7 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
               TextFormField(
                 keyboardType: TextInputType.number,
                 validator: (value) {
-                  if(value.isEmpty) return 'Empty Amount Not Allowed';
+                  if (value.isEmpty) return 'Empty Amount Not Allowed';
                   double amount = double.tryParse(value);
                   if (amount == null && !calculation.checkAmount(amount)) {
                     return 'Invalid value, you are to supply a number';
@@ -97,7 +151,7 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
               TextFormField(
                 keyboardType: TextInputType.number,
                 validator: (value) {
-                  if(value.isEmpty) return 'Empty Day Not Allowed';
+                  if (value.isEmpty) return 'Empty Day Not Allowed';
                   int day = int.tryParse(value);
                   if (day == null && !calculation.checkDuration(day)) {
                     return 'Invalid value, you are to supply a day between 10 - 1000';
@@ -125,17 +179,20 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
                   onPressed: () {
                     if (_formKey.currentState.validate()) {
                       _formKey.currentState.save();
-                      double calculate =
-                          calculation.performCalculation(_amount, _day);
+                      double calculateM =
+                          calculation.findMatureValue(_amount, _day);
                       setState(() {
-                        value = calculate.toStringAsFixed(2);
+                        matureValue = calculateM.toStringAsFixed(2);
+                        interest = calculation
+                            .findInterest(calculateM, _amount)
+                            .toStringAsFixed(2);
                       });
                     }
                   },
                   child: Padding(
                     padding: const EdgeInsets.all(14.0),
-                    child:
-                        Text('Calculate', style: TextStyle(color: Colors.white)),
+                    child: Text('Calculate',
+                        style: TextStyle(color: Colors.white)),
                   ),
                   color: Colors.green,
                   shape: RoundedRectangleBorder(
@@ -145,15 +202,26 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
               SizedBox(
                 height: 20.0,
               ),
-              Center(
-                child: Text(
-                  'Total Returns: $value',
-                  style: TextStyle(
-                    color: Colors.grey[700],
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20.0,
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Interest Of: $interest',
+                    style: TextStyle(
+                      color: Colors.grey[700],
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20.0,
+                    ),
                   ),
-                ),
+                  Text(
+                    'Total Returns: $matureValue',
+                    style: TextStyle(
+                      color: Colors.grey[700],
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20.0,
+                    ),
+                  ),
+                ],
               ),
               SizedBox(
                 height: 20.0,
