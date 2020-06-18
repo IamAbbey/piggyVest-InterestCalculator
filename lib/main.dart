@@ -13,10 +13,6 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Interest Calculator',
       home: CalculatorScreen(),
- adjust-intrest-calculation
-
-      
-
     );
   }
 }
